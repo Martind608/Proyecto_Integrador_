@@ -1,0 +1,19 @@
+{
+  "name": "proyecto_integrador",
+  "version": "1.0.0",
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "dependencies": {
+    
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+     "dev": "concurrently --kill-others \"cd backend & npm run dev \" \"cd proyecto_intedrador & npm start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
