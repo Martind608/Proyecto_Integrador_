@@ -24,6 +24,14 @@ const getProductoById = async (req, res) => {
 // Crear un nuevo producto
 const crearProducto = async (req, res) => {
     try {
+        const { nombre, precio, stock } = req.body;
+        if (!nombre || !precio || !stock) {
+            return res.status(400).json({ mensaje: 'Faltan campos obligatorios' });
+        }
+        if (precio < 0 || stock < 0) {
+            return res.status(400).json({ mensaje: 'El precio y el stock no pueden ser negativos' });
+        }
+
         const producto = new Producto(req.body);
         await producto.save();
         res.status(201).json(producto);
@@ -35,13 +43,24 @@ const crearProducto = async (req, res) => {
 // Actualizar un producto existente
 const actualizarProducto = async (req, res) => {
     try {
+        const { precio, stock } = req.body;
+
+        if (precio !== undefined && precio < 0) {
+            return res.status(400).json({ mensaje: 'El precio no puede ser negativo' });
+        }
+        if (stock !== undefined && stock < 0) {
+            return res.status(400).json({ mensaje: 'El stock no puede ser negativo' });
+        }
+
         const productoActualizado = await Producto.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!productoActualizado) return res.status(404).json({ mensaje: 'Producto no encontrado' });
+
         res.json(productoActualizado);
     } catch (error) {
         res.status(400).json({ mensaje: 'Error al actualizar el producto', error });
     }
 };
+
 
 // Eliminar un producto
 const eliminarProducto = async (req, res) => {
